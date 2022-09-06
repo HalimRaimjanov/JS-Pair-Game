@@ -7,19 +7,18 @@ var tens = 00;
 var appendTens = document.getElementById('tens');
 var appendSeconds = document.getElementById('seconds');
 var Interval;
-var card;
 var images = ['sass', 'git', 'gulp', 'css', 'grunt'];
 var clone = images.slice(0);
 var cards = images.concat(clone);
 
 function shuffle(o) {
-    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], 0[j] = x); return 0;
+    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x); return o;
 }
 
 shuffle(cards);
-for (var i=0; i< cards.length; i++) {
+for (var i = 0; i < cards.length; i++) {
     card = document.createElement('div');
-    card.dataset.item =cards[i];
+    card.dataset.item = cards[i];
     card.dataset.view = "card";
     myCards.appendChild(card);
     card.onclick = function () {
@@ -30,10 +29,10 @@ for (var i=0; i< cards.length; i++) {
             clearInterval(Interval);
             Interval = setInterval(startTimer, 10);
         }
-        if (resultsArray.length >1) {
+        if (resultsArray.length > 1) {
             if (resultsArray[0] === resultsArray[1]) {
                 check("correct");
-                counter ++;
+                counter++;
                 win();
                 resultsArray = [];
             } else {
@@ -44,17 +43,17 @@ for (var i=0; i< cards.length; i++) {
     }
 }
 
-var check = function(className) {
+var check = function (className) {
     var x = document.getElementsByClassName("flipped");
-    setTimeout(function() {
-        for (var i  = (x.length-1); i>=0; i--) {
+    setTimeout(function () {
+        for (var i = (x.length - 1); i >= 0; i--) {
             x[i].className = className;
         }
-    },500);
+    }, 500);
 }
 
 var win = function () {
-    if (counter ===5) {
+    if (counter === 5) {
         clearInterval(Interval);
         text.innerHTML = "Your time was " + seconds + ":" + tens;
     }
@@ -62,7 +61,19 @@ var win = function () {
 
 function startTimer() {
     tens++;
-    if(tens<9) {
+    if (tens < 9) {
         appendTens.innerHTML = "0" + tens;
+    }
+    if (tens > 9) {
+        appendTens.innerHTML = tens;
+    }
+    if (tens > 99) {
+        seconds++;
+        appendSeconds.innerHTML = "0" + seconds;
+        tens = 0;
+        appendTens.innerHTML = "0" + 0;
+    }
+    if (seconds > 9) {
+        appendSeconds.innerHTML = seconds;
     }
 }
